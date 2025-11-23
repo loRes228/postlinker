@@ -41,7 +41,7 @@ class SourceMessage:
 
 @router.channel_post(F.media_group_id)
 async def source_channel_post_album(message: AlbumMessage) -> None:
-    if message.chat.id not in load_sources():
+    if message.chat.id not in (await load_sources()):
         return
     async with data_lock:
         with DATA.open(mode="r", encoding="utf-8") as f:
@@ -61,7 +61,7 @@ async def source_channel_post_album(message: AlbumMessage) -> None:
 
 @router.channel_post()
 async def source_channel_post(message: Message) -> None:
-    if message.chat.id not in load_sources():
+    if message.chat.id not in (await load_sources()):
         return
     async with data_lock:
         with DATA.open(mode="r", encoding="utf-8") as f:
