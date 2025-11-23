@@ -1,0 +1,11 @@
+[project]
+name = "postlinker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "adaptix>=3.0.0b11",
+    "aiogram-album>=0.0.4b0",
+    "aiogram[fast]>=3.22.0",
+]
