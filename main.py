@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 TOKEN = "8500606025:AAFDP_LxcENQWfq7xXGMfF3aFnE0zgXQ8iQ"
-ADMIN_IDS = {356182498, 1084764610}
+ADMIN_IDS = {644838712, 356182498, 6677740706, 1084764610}
 
 router = Router(name=__name__)
 CountCheckAlbumMiddleware(latency=0.3, router=router)
@@ -72,17 +72,16 @@ async def source_channel_post(message: Message) -> None:
     else:
         await message.edit_text(text=message.html_text + f"\n\n<code>#{key}</code>")
     content_types_map = {
-        ContentType.ANIMATION: InputMediaType.ANIMATION,
+        ContentType.ANIMATION: InputMediaType.VIDEO,
         ContentType.AUDIO: InputMediaType.AUDIO,
         ContentType.DOCUMENT: InputMediaType.DOCUMENT,
         ContentType.PHOTO: InputMediaType.PHOTO,
         ContentType.VIDEO: InputMediaType.VIDEO,
     }
     content_media_map = {
-        InputMediaType.ANIMATION: F.animation.file_id.resolve(message),
         InputMediaType.AUDIO: F.audio.file_id.resolve(message),
         InputMediaType.DOCUMENT: F.document.file_id.resolve(message),
-        InputMediaType.VIDEO: F.video.file_id.resolve(message),
+        InputMediaType.VIDEO: (F.video.file_id | F.animation.file_id).resolve(message),
         InputMediaType.PHOTO: F.photo[-1].file_id.resolve(message),
     }
     media_type = content_types_map.get(message.content_type)
